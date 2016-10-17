@@ -1,6 +1,7 @@
 package com.r3dm4n.houseofredradio.fragments;
 
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -70,12 +71,14 @@ public class StationsFragment extends Fragment {
             adapter = new StationsAdapter(DataService.getInstance().getFeaturedStation());
 
         }else if(stationType == STATION_TYPE_RECENT) {
-            adapter = new StationsAdapter(DataService.getInstance().getRecentStations());
+            adapter = new StationsAdapter(DataService.getInstance().getFeaturedStation());
 
         }else{
-            adapter = new StationsAdapter(DataService.getInstance().getPartyStations());
+            adapter = new StationsAdapter(DataService.getInstance().getFeaturedStation());
 
         }
+
+        recyclerView.addItemDecoration(new HorizontalSpaceItemDecorator(30));
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -85,4 +88,19 @@ public class StationsFragment extends Fragment {
         return v;
     }
 
+}
+
+class HorizontalSpaceItemDecorator extends RecyclerView.ItemDecoration {
+
+    private final int spacer;
+
+    public HorizontalSpaceItemDecorator(int spacer) {
+        this.spacer = spacer;
+    }
+
+    @Override
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        super.getItemOffsets(outRect, view, parent, state);
+        outRect.right = spacer;
+    }
 }
